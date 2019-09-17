@@ -1,6 +1,6 @@
 <template id="canvas-component">
   <div id="canvaspage">
-    <canvas @click="canvasAction" ref="canvas" height="500"></canvas>
+    <canvas @click="canvasAction" ref="canvas"></canvas>
     <div class="bg-dark m-3 text-light p-3">
       <h5>Select your action:</h5>
       <div class="col" id="buttonlist">
@@ -12,23 +12,26 @@
 </template>
 
 <script>
-import { init, canvasClick, dijkstraButton, maxFlowButton } from '../../assets/CanvasGraph'
+import CanvasController from '../../assets/graph_js/canvas_controller'
+
+let canvasController = new CanvasController();
+
 export default {
 	name: 'CanvasPage',
+
 	methods: {
-		canvasAction(event) { canvasClick(event, this) },
-		dijkstraClick() { dijkstraButton(this) },
-		maxFlowClick() { maxFlowButton(this) },
+		canvasAction(event) { canvasController.canvasClick(event, this) },
+		dijkstraClick() { canvasController.dijkstraButton(this) },
+		maxFlowClick() { canvasController.maxFlowButton(this) },
 	},
 	mounted() {
-		init(this)
+		canvasController.init(this)
 	}
 }
 </script>
 
 <style scoped>
 	canvas {
-
 		background-color:cornsilk;
 	}
 	buttonlist {
