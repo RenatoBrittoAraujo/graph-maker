@@ -26,6 +26,6 @@ export default {
   color: #2c3e50;
 }
 body {
-	background-color:lavenderblush;
+	background-color:rgb(194, 194, 194);
 }
 </style>
