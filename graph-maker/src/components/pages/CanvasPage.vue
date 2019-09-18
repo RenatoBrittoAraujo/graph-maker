@@ -33,9 +33,7 @@ export default {
 	},
 	methods: {
 		canvasAction(event) { 
-			if ( canvasController.canvasClick(event) ) {
-				this.edgeSelect = !this.edgeSelect;
-			} 
+			this.edgeSelect = canvasController.canvasClick(event)
 		},
 		dijkstraClick() { canvasController.dijkstraButton() },
 		maxFlowClick() { canvasController.maxFlowButton() },

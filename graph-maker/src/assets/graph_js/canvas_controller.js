@@ -8,9 +8,14 @@ class CanvasController {
 	constructor () {
 		this.nodes = []
 		this.edges = []
+
 		this.NODE_RADIUS = 20
-		this.selection = false
-		this.firstSelection = null
+
+		this.nodeSelect = false
+		this.nodeSelection = null
+
+		this.edgeSelect = false
+		this.edgeSelection = null
 	}
 
 	// Public
@@ -36,36 +41,55 @@ class CanvasController {
 		
 	draw() {
 		this.edges.forEach((edge) => {
-			edge.draw(this.context)
+			edge.draw(this.canvas)
 		})
 		this.nodes.forEach((node) => {
-			node.draw(this.context)
+			node.draw(this.canvas)
 		})
 	}
 
 	canvasClick(event) {
-		let edgeSelect = false
+
 		let rect = this.canvas.getBoundingClientRect()
 		let x = event.x - rect.x
 		let y = event.y - rect.y
 		let point = { x, y }
+
 		let node = this.findNode(point)
 		let edge = this.findEdge(point)
-		if (edge) {
-			edgeSelect = true
-		} else if (node && !this.selection) {
-			this.selectNode(node)
-		} else if (node && node != this.firstSelection && this.selection) {
-			this.createNewEdge(this.firstSelection, node)
-			this.deselectNode()
-		} else {
-			this.createNewNode(point)
-			if (this.selection) {
-				this.deselectNode()
+
+		if (edge && !node) {
+
+			if (!this.edgeSelection && !this.edgeSelect) {
+				this.selectEdge(edge)
+			} else {
+				this.deselectEdge()
 			}
+			this.deselectNode()
+
+		} else if (node && !this.nodeSelect) {
+
+			this.deselectEdge()
+			this.deselectNode()
+			this.selectNode(node)
+
+		} else if (node && node != this.nodeSelection && this.nodeSelect) {
+
+			this.createNewEdge(this.nodeSelection, node)
+			this.deselectNode()
+			this.deselectEdge()
+
+		} else {
+
+			this.createNewNode(point)
+			this.deselectNode()
+			this.deselectEdge()
+
 		}
+
 		this.draw();
-		return edgeSelect
+
+		return this.edgeSelect
 	}
 
 	canvasHold() {
@@ -74,19 +98,38 @@ class CanvasController {
 
 	createNewEdge(nodeA, nodeB) {
 		let newEdge = new Edge(nodeA, nodeB)
+		newEdge.setDistanceTolerance = this.NODE_RADIUS
 		this.edges.push(newEdge)
 	}
 
+	selectEdge(edge) {
+		this.edgeSelect = true
+		this.edgeSelection = edge
+		this.edgeSelection.setSelectedColor()
+	}
+
+	deselectEdge() {
+		this.edgeSelect = false
+		if (!this.edgeSelection) {
+			return
+		}
+		this.edgeSelection.setStandardColor()
+		this.edgeSelection = null
+	}
+
 	selectNode(node) {
-		this.selection = true
-		this.firstSelection = node
-		this.firstSelection.setSelectedColor()
+		this.nodeSelect = true
+		this.nodeSelection = node
+		this.nodeSelection.setSelectedColor()
 	}
 
 	deselectNode() {
-		this.selection = false
-		this.firstSelection.setStandardColor()
-		this.firstSelection = null
+		this.nodeSelect = false
+		if (!this.nodeSelection) {
+			return
+		}
+		this.nodeSelection.setStandardColor()
+		this.nodeSelection = null
 	}
 	
 	dijkstraButton() {
@@ -112,14 +155,14 @@ class CanvasController {
 	findEdge (point) {
 		let foundEdge = null
 		let distance = Infinity
-		this.edges.forEach(() => {
+		this.edges.forEach((edge) => {
 			if ((edge.isPointInside(point) && !foundEdge) || 
 					(foundEdge && edge.distanceTo(point) < distance)) {
 				foundEdge = edge
 				distance = edge.distanceTo(point)
 			}
 		})
-		return edge
+		return foundEdge
 	}
 
 	neighborhoodCheck(point) {

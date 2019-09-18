@@ -7,10 +7,12 @@ class Node {
     this.setStandardColor()
 	}
 
-	draw(context) {
+	draw(canvas) {
+		let context = canvas.getContext('2d')
     context.beginPath();
+		context.lineWidth = 0
     context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
-    context.fillStyle = this.color;
+		context.fillStyle = this.color;
     context.fill();
   }
 
