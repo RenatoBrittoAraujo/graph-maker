@@ -1,14 +1,11 @@
 <template id="canvas-component">
   <div id="canvaspage">
     <canvas @click="canvasAction" height="700" ref="canvas" class="unselectable"></canvas>
-    <div id="filler p-1">
-			<div class="bg-dark text-light p-3">
-				<h5>Select your action:</h5>
-				<div class="col" id="buttonlist">
-					<button @click.prevent="dijkstraClick" class="btn btn-success m-3">Dijkstra</button>
-					<button @click.prevent="maxFlowClick" class="btn btn-success m-3">Max Flow</button>
-				</div>
-			</div>
+    <div id="filler p-1" v-if="edgeSelect">
+			<InputBox/>
+		</div>
+		<div v-else>
+			<AlgoBox/>
 		</div>
   </div>
 </template>
@@ -17,12 +14,29 @@
 /* Personal Lib */
 import CanvasController from '../../assets/graph_js/canvas_controller'
 
+/* Other vue componenets */
+import AlgoBox from './vanvas_page_layout/AlgoBox'
+import InputBox from './vanvas_page_layout/InputBox'
+
 let canvasController = new CanvasController();
 
 export default {
 	name: 'CanvasPage',
+	components: {
+		AlgoBox,
+		InputBox
+	},
+	data() {
+		return {
+			edgeSelect: false
+		}
+	},
 	methods: {
-		canvasAction(event) { canvasController.canvasClick(event) },
+		canvasAction(event) { 
+			if ( canvasController.canvasClick(event) ) {
+				this.edgeSelect = !this.edgeSelect;
+			} 
+		},
 		dijkstraClick() { canvasController.dijkstraButton() },
 		maxFlowClick() { canvasController.maxFlowButton() },
 	},

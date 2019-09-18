@@ -11,7 +11,6 @@ class Node {
     context.beginPath();
     context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
     context.fillStyle = this.color;
-    context.strokeStyle = 0
     context.fill();
   }
 

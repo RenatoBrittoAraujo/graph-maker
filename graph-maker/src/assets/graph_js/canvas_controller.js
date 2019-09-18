@@ -44,12 +44,16 @@ class CanvasController {
 	}
 
 	canvasClick(event) {
+		let edgeSelect = false
 		let rect = this.canvas.getBoundingClientRect()
 		let x = event.x - rect.x
 		let y = event.y - rect.y
 		let point = { x, y }
 		let node = this.findNode(point)
-		if (node && !this.selection) {
+		let edge = this.findEdge(point)
+		if (edge) {
+			edgeSelect = true
+		} else if (node && !this.selection) {
 			this.selectNode(node)
 		} else if (node && node != this.firstSelection && this.selection) {
 			this.createNewEdge(this.firstSelection, node)
@@ -61,6 +65,7 @@ class CanvasController {
 			}
 		}
 		this.draw();
+		return edgeSelect
 	}
 
 	canvasHold() {
@@ -102,6 +107,19 @@ class CanvasController {
 			}
 		})
 		return foundNode
+	}
+
+	findEdge (point) {
+		let foundEdge = null
+		let distance = Infinity
+		this.edges.forEach(() => {
+			if ((edge.isPointInside(point) && !foundEdge) || 
+					(foundEdge && edge.distanceTo(point) < distance)) {
+				foundEdge = edge
+				distance = edge.distanceTo(point)
+			}
+		})
+		return edge
 	}
 
 	neighborhoodCheck(point) {
