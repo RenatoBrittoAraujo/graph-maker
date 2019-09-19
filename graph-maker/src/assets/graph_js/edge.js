@@ -1,5 +1,7 @@
 import Node from './node'
 
+let id = 0
+
 class Edge {
 
   constructor (nodeA, nodeB) {
@@ -7,6 +9,14 @@ class Edge {
 		this.pointB = { 'x': nodeB.getX(), 'y': nodeB.getY() }
 		this.distanceTolerance = 20
 		this.color = '#333333'
+		this.id = id
+		id++
+	}
+
+	getId = () => this.id
+
+	toString() {
+		return 'Edge ' + id.toString()
 	}
 	
 	setDistanceTolerance = tolerance => { this.distanceTolerance = tolerance }

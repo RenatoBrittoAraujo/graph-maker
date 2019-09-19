@@ -1,10 +1,20 @@
+let id = 0
+
 class Node {
 
 	constructor (x, y, radius) {
 		this.x = x
 		this.y = y
     this.radius = radius
-    this.setStandardColor()
+		this.setStandardColor()
+		this.id = id
+		id++
+	}
+
+	getId = () => this.id
+
+	toString() {
+		return 'Node ' + this.id.toString()
 	}
 
 	draw(canvas) {

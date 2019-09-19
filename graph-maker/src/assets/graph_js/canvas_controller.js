@@ -1,5 +1,6 @@
 import Node from './node'
 import Edge from './edge'
+import Graph from './graph'
 
 class CanvasController {
 
@@ -8,6 +9,8 @@ class CanvasController {
 	constructor () {
 		this.nodes = []
 		this.edges = []
+
+		this.graph = new Graph()
 
 		this.NODE_RADIUS = 20
 
@@ -92,12 +95,17 @@ class CanvasController {
 		return this.edgeSelect
 	}
 
+	addEdgeWeight(weight) {
+		this.deselectEdge()
+	}
+
 	canvasHold() {
 
 	}
 
 	createNewEdge(nodeA, nodeB) {
 		let newEdge = new Edge(nodeA, nodeB)
+		this.graph.addEdge(newEdge, nodeA, nodeB)
 		newEdge.setDistanceTolerance = this.NODE_RADIUS
 		this.edges.push(newEdge)
 	}
@@ -140,6 +148,10 @@ class CanvasController {
 
 	}
 
+	dfs() {
+		this.graph.dfs(this.nodes[this.nodes.length - 1].getId())
+	}
+
 	// Private
 
 	findNode (point) {
@@ -180,6 +192,7 @@ class CanvasController {
 			return
 		}
 		let newNode = new Node(point.x, point.y, this.NODE_RADIUS)
+		this.graph.addNode(newNode)
 		this.nodes.push(newNode)
 	}
 

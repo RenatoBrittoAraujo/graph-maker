@@ -3,8 +3,9 @@
 		<div class="bg-dark text-light p-3">
 			<h5>Select your action:</h5>
 			<div class="col" id="buttonlist">
-				<button @click.prevent="dijkstraClick" class="btn btn-success m-3">Dijkstra</button>
-				<button @click.prevent="maxFlowClick" class="btn btn-success m-3">Max Flow</button>
+				<button @click="$emit('dijkstra')" class="btn btn-success m-3">Dijkstra</button>
+				<button @click="$emit('maxflow')" class="btn btn-success m-3">Max Flow</button>
+				<button @click="$emit('dfs')" class="btn btn-success m-3">DFS</button>
 			</div>
 		</div>
 	</div>

@@ -2,10 +2,10 @@
   <div id="canvaspage">
     <canvas @click="canvasAction" height="700" ref="canvas" class="unselectable"></canvas>
     <div id="filler p-1" v-if="edgeSelect">
-			<InputBox/>
+			<InputBox @edge-weight="addEdgeWeight"/>
 		</div>
 		<div v-else>
-			<AlgoBox/>
+			<AlgoBox @dijkstra="dijkstraClick" @maxflow="maxFlowClick" @dfs="dfs"/>
 		</div>
   </div>
 </template>
@@ -37,9 +37,17 @@ export default {
 		},
 		dijkstraClick() { canvasController.dijkstraButton() },
 		maxFlowClick() { canvasController.maxFlowButton() },
+		addEdgeWeight(weight) {
+			canvasController.addEdgeWeight(weight);
+			this.edgeSelect = false
+		},
+		dfs() {
+			canvasController.dfs()
+		}
 	},
 	mounted() {
 		canvasController.init(this)
+		this.edgeSelect = false
 	}
 }
 </script>
