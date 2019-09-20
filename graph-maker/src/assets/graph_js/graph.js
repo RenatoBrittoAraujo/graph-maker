@@ -1,6 +1,3 @@
-import Node from './node'
-import Edge from './edge'
-
 class Graph {
 
 	constructor() {

@@ -1,5 +1,5 @@
 <template>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<nav class="navbar header navbar-expand-lg navbar-dark bg-dark">
 		<a class="navbar-brand" href="/">
 			<img src="../../assets/logo.png" width="auto" height="25" alt="">
 			<b>GRAPH MAKER</b>
@@ -25,5 +25,8 @@ export default {
 	img {
 		-webkit-filter: brightness(0) invert(1);
 		filter: brightness(0) invert(1);
+	}
+	.header {
+		height: 10%;
 	}
 </style>

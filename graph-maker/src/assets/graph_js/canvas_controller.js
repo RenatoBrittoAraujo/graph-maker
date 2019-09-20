@@ -95,6 +95,10 @@ class CanvasController {
 		return this.edgeSelect
 	}
 
+	getWeight() {
+		return this.graph.getEdge(this.edgeSelection.id).weight
+	}
+
 	addEdgeWeight(weight) {
 		this.graph.getEdge(this.edgeSelection.getId()).weight = weight
 		this.deselectEdge()
@@ -145,7 +149,11 @@ class CanvasController {
 		let lastNode = this.nodes.length - 1
 		let secondToLastNode = this.nodes.length - 2
 		let ans = this.graph.dijkstra(lastNode, secondToLastNode)
-		console.log('Dijkstra from ' + lastNode + ' to ' + secondToLastNode + ' yilded ' + ans)
+		return ans
+	}
+
+	getNodeCount() {
+		return this.nodes.length
 	}
 	
 	maxFlowButton() {

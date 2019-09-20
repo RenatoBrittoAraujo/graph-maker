@@ -1,6 +1,6 @@
 <template>
 	<div class="algobox">
-		<div class="bg-dark text-light p-3">
+		<div class="p-3">
 			<h5>Select your action:</h5>
 			<div class="col" id="buttonlist">
 				<button @click="$emit('dijkstra')" class="btn btn-success m-3">Dijkstra</button>
